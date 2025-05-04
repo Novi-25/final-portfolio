@@ -1,23 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Card from '../common/Card';
 import Button from '../common/Button';
 import SectionHeading from '../common/SectionHeading';
 import projectsData from '../../data/projects';
 import './projects.css';
 
+// Get all unique tags from projects
+const getAllTags = () => {
+  const tagsSet = new Set();
+  projectsData.forEach(project => {
+    project.tags.forEach(tag => {
+      tagsSet.add(tag);
+    });
+  });
+  return ['All', ...Array.from(tagsSet)];
+};
+
 const Projects = () => {
   const [visibleProjects, setVisibleProjects] = useState([]);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState('All');
   const [showAll, setShowAll] = useState(false);
+  const [hovered, setHovered] = useState(null);
+  const [tags] = useState(getAllTags());
+  const projectsRef = useRef(null);
   
-  // Initial display and filtering
+  // Filter and pagination
   useEffect(() => {
-    let filtered = projectsData;
+    let filtered = [...projectsData];
     
-    if (filter === 'featured') {
-      filtered = projectsData.filter(project => project.featured);
+    // Apply tag filter if not 'All'
+    if (filter !== 'All') {
+      filtered = filtered.filter(project => project.tags.includes(filter));
     }
     
+    // Limit if not showing all
     if (!showAll) {
       filtered = filtered.slice(0, 3);
     }
@@ -25,7 +42,7 @@ const Projects = () => {
     setVisibleProjects(filtered);
   }, [filter, showAll]);
   
-  // Filter handlers
+  // Handle filter change
   const handleFilterChange = (newFilter) => {
     setFilter(newFilter);
     setShowAll(false);
@@ -34,10 +51,50 @@ const Projects = () => {
   // Toggle show all
   const toggleShowAll = () => {
     setShowAll(!showAll);
+    
+    // Scroll to view newly loaded projects
+    if (!showAll && projectsRef.current) {
+      setTimeout(() => {
+        const projectHeight = 400; // Approximate height of a project card
+        window.scrollBy({
+          top: projectHeight,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
+  };
+  
+  // Animation variants for the grid items
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 15
+      }
+    }
+  };
+  
+  const tagVariants = {
+    initial: { scale: 1 },
+    hover: { scale: 1.05 }
   };
   
   return (
-    <section id="projects" className="section projects-section">
+    <section id="projects" className="section projects-section" ref={projectsRef}>
       <div className="container">
         <SectionHeading 
           title="My Projects" 
@@ -45,46 +102,147 @@ const Projects = () => {
         />
         
         <div className="projects-filter">
-          <button 
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => handleFilterChange('all')}
-          >
-            All Projects
-          </button>
-          <button 
-            className={`filter-btn ${filter === 'featured' ? 'active' : ''}`}
-            onClick={() => handleFilterChange('featured')}
-          >
-            Featured
-          </button>
+          <div className="filter-tags">
+            {tags.map((tag, index) => (
+              <motion.button 
+                key={tag}
+                className={`filter-tag ${filter === tag ? 'active' : ''}`}
+                onClick={() => handleFilterChange(tag)}
+                variants={tagVariants}
+                initial="initial"
+                whileHover="hover"
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+              >
+                {tag}
+              </motion.button>
+            ))}
+          </div>
         </div>
         
-        <div className="projects-grid">
-          {visibleProjects.map(project => (
-            <Card
-              key={project.id}
-              image={project.image}
-              title={project.title}
-              description={project.description}
-              tags={project.tags}
-              repoLink={project.repoLink}
-              liveLink={project.liveLink}
-            />
-          ))}
-        </div>
+        <motion.div 
+          className="projects-grid"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <AnimatePresence>
+            {visibleProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className="project-item"
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ delay: index * 0.1 }}
+                layout
+                onMouseEnter={() => setHovered(project.id)}
+                onMouseLeave={() => setHovered(null)}
+              >
+                <Card
+                  image={project.image}
+                  title={project.title}
+                  description={project.description}
+                  tags={project.tags}
+                  repoLink={project.repoLink}
+                  liveLink={project.liveLink}
+                  isHovered={hovered === project.id}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
         
-        {(filter === 'all' && projectsData.length > 3) || 
-         (filter === 'featured' && projectsData.filter(p => p.featured).length > 3) ? (
+        {/* Show more/less button */}
+        {filter === 'All' && projectsData.length > 3 || 
+         filter !== 'All' && projectsData.filter(p => p.tags.includes(filter)).length > 3 ? (
           <div className="projects-actions">
             <Button 
               variant="outline" 
               onClick={toggleShowAll}
+              icon={
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {showAll ? (
+                    <>
+                      <polyline points="18 15 12 9 6 15"></polyline>
+                    </>
+                  ) : (
+                    <>
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </>
+                  )}
+                </svg>
+              }
             >
               {showAll ? 'Show Less' : 'Load More'}
             </Button>
           </div>
-        ) : null}
+        ) : (
+          <div className="projects-empty-state">
+            {visibleProjects.length === 0 && (
+              <div className="empty-message">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+                <h3>No projects found for this filter</h3>
+                <p>Try selecting a different technology or view all projects</p>
+                <Button variant="primary" size="small" onClick={() => handleFilterChange('All')}>
+                  View All Projects
+                </Button>
+              </div>
+            )}
+          </div>
+        )}
+        
+        {/* Project stats */}
+        <div className="project-stats">
+          <div className="stat">
+            <div className="stat-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+            </div>
+            <div className="stat-content">
+              <span className="stat-number">{projectsData.length}+</span>
+              <span className="stat-label">Projects Completed</span>
+            </div>
+          </div>
+          
+          <div className="stat">
+            <div className="stat-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <div className="stat-content">
+              <span className="stat-number">3+</span>
+              <span className="stat-label">Years Experience</span>
+            </div>
+          </div>
+          
+          <div className="stat">
+            <div className="stat-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div className="stat-content">
+              <span className="stat-number">15+</span>
+              <span className="stat-label">Happy Clients</span>
+            </div>
+          </div>
+        </div>
       </div>
+      
+      {/* Background elements */}
+      <div className="projects-bg-element projects-bg-circle"></div>
+      <div className="projects-bg-element projects-bg-dots"></div>
     </section>
   );
 };
