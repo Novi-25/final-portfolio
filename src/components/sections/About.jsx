@@ -47,7 +47,7 @@ const About = () => {
         <div className="about-content">
           <div className="about-image-container fade-in-right">
             <div className="about-image">
-              <img src="/profile.jpg" alt="Profile" />
+              <img src="/profile1.jpg" alt="Profile" />
             </div>
             
             <div className="about-image-decoration circle-1"></div>

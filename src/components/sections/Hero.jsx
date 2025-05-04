@@ -138,7 +138,7 @@ const Hero = () => {
         <div className="hero-image-container fade-in-right">
           <div className="hero-image-wrapper">
             <div className="hero-image">
-              <img src="/profile.jpg" alt="Novelyn Rampola - Profile" />
+              <img src="/profile1.jpg" alt="Novelyn Rampola - Profile" />
             </div>
             
             <div 
