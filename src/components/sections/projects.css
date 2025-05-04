@@ -1,0 +1,124 @@
+.projects-section {
+  position: relative;
+  background-color: var(--neutral-100);
+}
+
+.projects-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(var(--primary-100) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.projects-filter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.filter-btn {
+  padding: 0.5rem 1.25rem;
+  background-color: transparent;
+  border: 2px solid var(--primary-300);
+  border-radius: var(--radius-full);
+  color: var(--neutral-700);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-btn:hover {
+  background-color: var(--primary-100);
+  border-color: var(--primary-400);
+  color: var(--primary-500);
+}
+
+.filter-btn.active {
+  background-color: var(--primary-500);
+  border-color: var(--primary-500);
+  color: white;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.projects-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-xl);
+}
+
+/* Project card animations */
+.projects-grid .card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp var(--transition-normal) forwards;
+}
+
+.projects-grid .card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.projects-grid .card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.projects-grid .card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.projects-grid .card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.projects-grid .card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.projects-grid .card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-lg);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-filter {
+    margin-bottom: var(--space-lg);
+  }
+}

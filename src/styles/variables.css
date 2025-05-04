@@ -1,0 +1,59 @@
+:root {
+  /* Primary Colors */
+  --primary-100: #f8e1eb; /* Light pink */
+  --primary-200: #f0c3d7; /* Soft pink */
+  --primary-300: #e4a5c3; /* Medium pink */
+  --primary-400: #d787af; /* Deep pink */
+  --primary-500: #c45c8e; /* Bold pink */
+
+  /* Accent Colors */
+  --accent-100: #e1f0f8; /* Light periwinkle */
+  --accent-200: #c3d7f0; /* Soft periwinkle */
+  --accent-300: #a5b7e4; /* Medium periwinkle */
+  --accent-400: #8798d7; /* Deep periwinkle */
+  --accent-500: #6c78c4; /* Bold periwinkle */
+
+  /* Neutral Colors */
+  --neutral-100: #ffffff; /* White */
+  --neutral-200: #f5f5f7; /* Off-white */
+  --neutral-300: #e6e6eb; /* Light gray */
+  --neutral-400: #d1d1db; /* Medium gray */
+  --neutral-500: #9898a3; /* Gray */
+  --neutral-600: #5c5c69; /* Dark gray */
+  --neutral-700: #303038; /* Charcoal */
+  --neutral-800: #1a1a20; /* Near black */
+  --neutral-900: #0f0f12; /* Black */
+
+  /* Success/Error States */
+  --success: #4caf93;
+  --error: #e77380;
+
+  /* Typography */
+  --font-primary: "Raleway", sans-serif;
+  --font-secondary: "Playfair Display", serif;
+  --font-code: "Fira Code", monospace;
+
+  /* Spacing */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-xxl: 3rem; /* 48px */
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}
