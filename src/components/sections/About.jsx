@@ -29,9 +29,9 @@ const About = () => {
   
   // Skills data
   const skills = {
-    frontend: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Vue.js', 'TypeScript', 'Sass/SCSS', 'Tailwind CSS', 'Responsive Design'],
-    backend: ['Node.js', 'Express', 'MongoDB', 'Firebase', 'RESTful APIs', 'PHP', 'MySQL', 'GraphQL'],
-    tools: ['Git', 'GitHub', 'VS Code', 'Figma', 'Adobe XD', 'Webpack', 'Vercel', 'Netlify', 'CI/CD']
+    frontend: ['HTML5', 'CSS3', 'JavaScript', 'React', ],
+    backend: ['Node.js', 'Express', 'PHP', 'MySQL'],
+    tools: ['Git', 'GitHub', 'VS Code', 'Figma', 'Netlify']
   };
   
   return (
@@ -56,8 +56,7 @@ const About = () => {
             
             {/* Additional decorative elements */}
             <div className="about-image-badge">
-              <span className="experience-years">3+</span>
-              <span className="experience-text">Years<br/>Experience</span>
+              <span className="experience-years">IT</span>
             </div>
           </div>
           
@@ -65,16 +64,9 @@ const About = () => {
             <h3>Hi there! I'm <span className="highlight">Novelyn Rampola</span></h3>
             
             <p>
-              I'm a passionate software developer from Davao City, specializing in creating beautiful, 
-              responsive websites and web applications. With expertise in both frontend and backend 
-              technologies, I enjoy bringing creative ideas to life through clean and efficient code.
+            A persistent and hardworking person, always ready to strive for new learnings. Flexible in any work environment and good at cooperating in company team work. Diligent in accomplishing tasks and workloads, showcasing a professionalism.
             </p>
-            
-            <p>
-              My journey in web development began 4 years ago, and I've been continuously expanding 
-              my skills ever since. I believe in writing maintainable code that provides exceptional 
-              user experiences across all devices.
-            </p>
+
             
             <div className="about-highlight-box">
               <div className="highlight-icon">

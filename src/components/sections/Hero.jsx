@@ -117,22 +117,8 @@ const Hero = () => {
             </Button>
           </div>
           
-          <div className="hero-stats fade-in">
-            <div className="stat">
-              <span className="stat-number">3+</span>
-              <span className="stat-label">Years Experience</span>
-            </div>
-            <div className="stat-divider"></div>
-            <div className="stat">
-              <span className="stat-number">20+</span>
-              <span className="stat-label">Projects Completed</span>
-            </div>
-            <div className="stat-divider"></div>
-            <div className="stat">
-              <span className="stat-number">15+</span>
-              <span className="stat-label">Happy Clients</span>
-            </div>
-          </div>
+
+           
         </div>
         
         <div className="hero-image-container fade-in-right">
