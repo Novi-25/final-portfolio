@@ -87,10 +87,9 @@ const BlogPost = () => {
             <img src="/images/profile.jpg" alt="Author" />
           </div>
           <div className="author-info">
-            <h3>Written by Your Name</h3>
+            <h3>Novelyn Rampola</h3>
             <p>
-              Software Developer passionate about creating beautiful and functional web experiences.
-              When not coding, I enjoy writing about technology, design, and development.
+             An inspiring Software Developer
             </p>
           </div>
         </div>
